@@ -1,9 +1,143 @@
-# argparse_tree #
+# `argparse_tree` #
 
 Let the commandline arguments be distributed along the
 source directory, which can be collected into one with
 a single collection as a parent before initialising the
 command.
+
+# Installation #
+
+## Using `pip` ##
+```shell
+pip install argparse_tree
+```
+
+## Using `pip` but with a cloned repository ##
+```shell
+git clone "https://github.com/bvraghav/argparse_tree"
+cd argparse_tree
+pip install .
+```
+
+# Usage #
+
+A detailed usage can be found in the folder
+[`example`](./example). The crux of the matter is
+illustrated below:
+
+```python
+parser = ArgumentParser(
+  parents=collect_parsers(
+    '*_style1.py', 'style2/*.py',
+    parent_package = __package__
+  ),
+)
+
+parser.add_argument(
+  '-v', '--verbose', action='store_true',
+  help="Verbosity switch."
+)
+
+add_commands(
+  parser, '*_command.py',
+  parent_package=__package__,
+  action=load_module_action(
+    '*_command.py', __package__
+  ),
+)
+```
+
+Three functions namely, `collect_parsers`,
+`add_commands`, and `load_module_action` are utilized
+to achieve the desired behaviour, that is
+
+1. To have a set of argument groups collected from a
+   set of files following a convenvention in names;
+2. To allow, non-homogeneity in such groups; and
+3. To extend this behaviour for sub-parsers.
+
+## Convention ##
+A set of files, each containing a function `cli_args`
+that returns parser information, are grouped together
+using a certain convention in their file names, for
+example, using a suffix say,`*_data.py` may represent
+different datasets. The arguments generic to all
+datasets may be written to `generic_data.py`. They are
+all collected using the function
+`collect_parsers`. 
+
+The convention may have simple been altered to follow a
+prefixed format, say `data/*.py` --- should work
+equally well.
+
+## `collect_parsers` ##
+
+```python
+collect_parsers(
+  *patterns, 
+  root=None,
+  parent_package=None,
+  key_to_mod=utils.key_to_mod
+)
+```
+
+Glob the `ROOT` folder with `PATTERNS`, one at a time,
+and collect their parsers. If not specified, `ROOT` is
+computed, using the `inspect` API, to be the folder
+where the caller script resides. 
+
+`PARENT_PACKAGE` is the name of package corresponding
+to `ROOT` folder. If not specified, `PARENT_PACKAGE` is
+not used.
+
+## `add_commands` ##
+
+```python
+add_commands(
+  parser, pattern, 
+  *,
+  root=None,
+  parent_package=None,
+  dest='command',
+  action=None,
+  mod_to_key=utils.mod_to_key
+)
+```
+
+Create subcommands to cli using `PARSER`, one
+corresponding to each `PATTERN`. Command name is
+computed using `MOD_TO_KEY` functional, which follows
+the same signature as `utils.mod_to_key`.
+
+The same convention as `collect_parsers` is followed
+for `PATTERN`, `ROOT`, and `PARENT_PACKAGE`.
+
+`DEST` and `ACTION` are forwarded to
+`argparser.add_subparsers`.
+
+
+## `load_module_action` ##
+
+```python
+load_module_action(
+  pattern,
+  package=None,
+  key_to_mod=utils.key_to_mod
+)
+```
+
+Create an `argparse.Action` to load a module
+corresponding to a user-given key, based on `PATTERN`,
+and `PACKAGE` using a decoder `KEY_TO_MOD` functional,
+which follows the same signature as `utils.key_to_mod`.
+
+In case it is desirable to load a module corresponding
+to value in user-specified argument, at the time of
+parsing the args, use this as value of `action` in
+`argparser.ArgumentParser.add_argument`.
+
+
+# Motivation #
 
 The core idea behind this project is to exploit [this
 argparse
@@ -93,8 +227,8 @@ from alpha import A
 print (A().p)
 ```
 
-The idea is the use this behaviour and search the caller's
-parent path for the relevant module patterns.
+The idea is the use this behaviour and search the
+caller's parent path for the relevant module patterns.
 
 This may be interesting; but it is always better to
 provide an unambiguous argument instead of inspect!
