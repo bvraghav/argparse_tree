@@ -47,9 +47,11 @@ add_commands(
 )
 ```
 
-Three functions namely, `collect_parsers`,
-`add_commands`, and `load_module_action` are utilized
-to achieve the desired behaviour, that is
+Three functions namely,
+[`collect_parsers`](./argparse_tree/utils.py#L13),
+[`add_commands`](./argparse_tree/utils.py#L72), and
+[`load_module_action`](./argparse_tree/load_module_action.py#L31)
+are utilized to achieve the desired behaviour, that is
 
 1. To have a set of argument groups collected from a
    set of files following a convenvention in names;
@@ -57,27 +59,26 @@ to achieve the desired behaviour, that is
 3. To extend this behaviour for sub-parsers.
 
 ## Convention ##
-A set of files, each containing a function `cli_args`
-that returns parser information, are grouped together
-using a certain convention in their file names, for
-example, using a suffix say,`*_data.py` may represent
-different datasets. The arguments generic to all
-datasets may be written to `generic_data.py`. They are
-all collected using the function
-`collect_parsers`. 
+A set of files, each containing a function
+[`cli_args`](./example/alpha_style1.py#L1) that returns
+parser information, are grouped together using a
+certain convention in their file names, for example,
+using a suffix say,`*_data.py` may represent different
+datasets. The arguments generic to all datasets may be
+written to `generic_data.py`. They are all collected
+using the function `collect_parsers`.
 
 The convention may have simple been altered to follow a
 prefixed format, say `data/*.py` --- should work
 equally well.
 
-## `collect_parsers` ##
+## [`collect_parsers`](./argparse_tree/utils.py#L13) ##
 
 ```python
 collect_parsers(
   *patterns, 
   root=None,
-  parent_package=None,
-  key_to_mod=utils.key_to_mod
+  parent_package=None
 )
 ```
 
@@ -90,7 +91,7 @@ where the caller script resides.
 to `ROOT` folder. If not specified, `PARENT_PACKAGE` is
 not used.
 
-## `add_commands` ##
+## [`add_commands`](./argparse_tree/utils.py#L72) ##
 
 ```python
 add_commands(
@@ -107,16 +108,18 @@ add_commands(
 Create subcommands to cli using `PARSER`, one
 corresponding to each `PATTERN`. Command name is
 computed using `MOD_TO_KEY` functional, which follows
-the same signature as `utils.mod_to_key`.
+the same signature as
+[`utils.mod_to_key`](./argparse_tree/utils.py#L47).
 
-The same convention as `collect_parsers` is followed
-for `PATTERN`, `ROOT`, and `PARENT_PACKAGE`.
+The same convention as
+[`collect_parsers`](#collect_parsers) is followed for
+`PATTERN`, `ROOT`, and `PARENT_PACKAGE`.
 
 `DEST` and `ACTION` are forwarded to
-`argparser.add_subparsers`.
+[`argparse.ArgumentParser.add_subparsers`](https://docs.python.org/3/library/argparse.html?highlight=argparse%20argumentparser%20add_subparsers#argparse.ArgumentParser.add_subparsers).
 
 
-## `load_module_action` ##
+## [`load_module_action`](./argparse_tree/load_module_action.py#L31) ##
 
 ```python
 load_module_action(
@@ -129,12 +132,13 @@ load_module_action(
 Create an `argparse.Action` to load a module
 corresponding to a user-given key, based on `PATTERN`,
 and `PACKAGE` using a decoder `KEY_TO_MOD` functional,
-which follows the same signature as `utils.key_to_mod`.
+which follows the same signature as
+[`utils.key_to_mod`](./argparse_tree/utils.py#L110).
 
 In case it is desirable to load a module corresponding
 to value in user-specified argument, at the time of
 parsing the args, use this as value of `action` in
-`argparser.ArgumentParser.add_argument`.
+[`argparser.ArgumentParser.add_argument`](https://docs.python.org/3/library/argparse.html?highlight=argparse%20argumentparser%20add_argument#argparse.ArgumentParser.add_argument).
 
 
 # Motivation #
@@ -151,7 +155,9 @@ global_parser = argparse.ArgumentParser(
   parents=[local_parser, ...]
 )
 ```
-The proof of concept can be seen in [this code](./proof-of-concept.py).
+
+The proof of concept can be seen in [this
+code](./proof-of-concept.py).
 
 For example in machine learning training routines,
 there can be many models, many solvers, many datasets,
