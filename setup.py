@@ -1,13 +1,26 @@
 from setuptools import setup
 
+with open('README.md', 'r') as F :
+  ldesc = F.read()
+
 setup(
-  name         = 'argparse_tree',
-  version      = '0.01',
-  description  = 'Split parse args into filesystem tree for complex projects.',
-  url          = 'https://bvraghav.com/',
-  author       = 'B.V. Raghav',
-  author_email = 'bvraghav@gmail.com',
-  licence      = 'MIT',
-  packages     = ['argparse_tree'],
-  zip_safe     = False,
+  name                          = 'argparse_tree',
+  version                       = '0.01',
+  description                   = (
+    'Split parse args into filesystem ''tree for '
+    'complex projects.'
+  ),
+  long_description              = ldesc,
+  long_description_content_type = 'text/markdown',
+  url                           = 'https://bvraghav.com/',
+  author                        = 'B.V. Raghav',
+  author_email                  = 'bvraghav@gmail.com',
+  licence                       = 'MIT',
+  packages                      = ['argparse_tree'],
+  classifiers                   = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+  ],
+  python_requires               = '>=3',
 )
