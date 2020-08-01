@@ -2,6 +2,8 @@ import logging as lg
 
 from . store_action import StoreActionBase
 
+from . import utils
+
 
 ## Load Module
 ## ====================================================
@@ -26,8 +28,9 @@ class LoadModuleActionBase(StoreActionBase) :
     super().__call__(parser, namespace, values,
                      option_string=None,)
 
-def load_module_action(pattern, package=None) :
-  from . utils import key_to_mod
+def load_module_action(
+    pattern, package=None, key_to_mod=utils.key_to_mod
+) :
   from functools import partial
   from . sub_parsers_action import SubParsersAction
 

@@ -43,42 +43,6 @@ def collect_parsers(
 
   return list(chain(*parser_groups))
 
-def add_commands(
-    parser, pattern, *,
-    root=None, parent_package=None,
-    dest='command', action=None,
-) :
-  from . import Atree
-  from argparse import ArgumentParser
-
-  root = sanitize_root_path(root)
-  lg.info('add_commands: root: %s', root)
-
-  commands = Atree(
-    pattern,
-    root = root,
-    parent_package = parent_package,
-  ).collect_keyed_parsers()
-
-  if commands :
-    kwargs = dict()
-    if action : kwargs['action'] = action
-    subs = parser.add_subparsers(
-      dest=dest, required=True, **kwargs
-    )
-
-    for name, prsr in commands.items() :
-
-      lg.info(f'reduce_command_parsers: name: {name}')
-      lg.info(f'reduce_command_parsers: prsr: {prsr}')
-
-      subs.add_parser(name, parents=[prsr])
-
-  else : # not commands
-    lg.warning(f'add_commands: No match for pattern "{pattern}"')
-
-  return parser
-
 
 def mod_to_key(module_name, pattern) :
   from functools import reduce
@@ -104,6 +68,44 @@ def mod_to_key(module_name, pattern) :
   )
 
   return key
+
+def add_commands(
+    parser, pattern, *,
+    root=None, parent_package=None,
+    dest='command', action=None,
+    mod_to_key=mod_to_key,
+) :
+  from . import Atree
+  from argparse import ArgumentParser
+
+  root = sanitize_root_path(root)
+  lg.info('add_commands: root: %s', root)
+
+  commands = Atree(
+    pattern,
+    root = root,
+    parent_package = parent_package,
+    mod_to_key = mod_to_key
+  ).collect_keyed_parsers()
+
+  if commands :
+    kwargs = dict()
+    if action : kwargs['action'] = action
+    subs = parser.add_subparsers(
+      dest=dest, required=True, **kwargs
+    )
+
+    for name, prsr in commands.items() :
+
+      lg.info(f'reduce_command_parsers: name: {name}')
+      lg.info(f'reduce_command_parsers: prsr: {prsr}')
+
+      subs.add_parser(name, parents=[prsr])
+
+  else : # not commands
+    lg.warning(f'add_commands: No match for pattern "{pattern}"')
+
+  return parser
 
 def key_to_mod(key, pattern, package=None) :
   from pathlib import Path
