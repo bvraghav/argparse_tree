@@ -5,14 +5,14 @@ with open('README.md', 'r') as F :
 
 setup(
   name                          = 'argparse_tree',
-  version                       = '0.01',
+  version                       = '0.1.2',
   description                   = (
     'Split parse args into filesystem ''tree for '
     'complex projects.'
   ),
   long_description              = ldesc,
   long_description_content_type = 'text/markdown',
-  url                           = 'https://bvraghav.com/',
+  url                           = 'https://github.com/bvraghav/argparse_tree',
   author                        = 'B.V. Raghav',
   author_email                  = 'bvraghav@gmail.com',
   licence                       = 'MIT',
