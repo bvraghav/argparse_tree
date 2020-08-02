@@ -157,7 +157,7 @@ global_parser = argparse.ArgumentParser(
 ```
 
 The proof of concept can be seen in [this
-code](./proof_of_concept.py).
+code](./scratchpad/proof_of_concept.py).
 
 For example in machine learning training routines,
 there can be many models, many solvers, many datasets,
