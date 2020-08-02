@@ -14,7 +14,7 @@ setup(
   long_description_content_type = 'text/markdown',
   url                           = 'https://github.com/bvraghav/argparse_tree',
   author                        = 'B.V. Raghav',
-  author_email                  = 'bvraghav@gmail.com',
+  # author_email                  = 'bvraghav@gmail.com',
   licence                       = 'MIT',
   packages                      = ['argparse_tree'],
   classifiers                   = [
