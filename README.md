@@ -41,7 +41,7 @@ parser.add_argument(
 add_commands(
   parser, '*_command.py',
   parent_package=__package__,
-  action=load_module_action(
+  action=load_module_subparser_action(
     '*_command.py', __package__
   ),
 )
@@ -50,7 +50,7 @@ add_commands(
 Three functions namely,
 [`collect_parsers`](./argparse_tree/utils.py#L13),
 [`add_commands`](./argparse_tree/utils.py#L72), and
-[`load_module_action`](./argparse_tree/load_module_action.py#L31)
+[`load_module_subparser_action`](./argparse_tree/load_module_subparser_action.py#L31)
 are utilized to achieve the desired behaviour, that is
 
 1. To have a set of argument groups collected from a

@@ -17,18 +17,18 @@ class LoadModuleActionBase(StoreActionBase) :
 
     # Modify values as needed
     values = self.value_decoder(values)
-    lg.info(f'LoadModuleAction: values: {values}')
+    lg.debug(f'LoadModuleAction: values: {values}')
 
     # Import module
     from importlib import import_module
     values = import_module(values)
-    lg.info(f'LoadModuleAction: values: {values}')
+    lg.debug(f'LoadModuleAction: values: {values}')
 
     # Save
     super().__call__(parser, namespace, values,
                      option_string=None,)
 
-def load_module_action(
+def load_module_subparser_action(
     pattern, package=None, key_to_mod=utils.key_to_mod
 ) :
   from functools import partial
@@ -36,6 +36,21 @@ def load_module_action(
 
   class LoadModuleAction(
       LoadModuleActionBase, SubParsersAction
+  ) :
+    value_decoder = partial(
+      key_to_mod, pattern=pattern, package=package
+    )
+
+  return LoadModuleAction
+
+def load_module_store_action(
+    pattern, package=None, key_to_mod=utils.key_to_mod
+) :
+  from functools import partial
+  from . sub_parsers_action import SubParsersAction
+
+  class LoadModuleAction(
+      LoadModuleActionBase
   ) :
     value_decoder = partial(
       key_to_mod, pattern=pattern, package=package

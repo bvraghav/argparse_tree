@@ -3,7 +3,8 @@ import logging as lg
 def cli_args() :
   from argparse import ArgumentParser
   from .. argparse_tree import (
-    collect_parsers, add_commands, load_module_action
+    collect_parsers, add_commands,
+    load_module_subparser_action,
   )
 
   parser = ArgumentParser(
@@ -21,7 +22,7 @@ def cli_args() :
   add_commands(
     parser, '*_command.py',
     parent_package=__package__,
-    action=load_module_action(
+    action=load_module_subparser_action(
       '*_command.py', __package__
     ),
   )
