@@ -113,7 +113,7 @@ Glob the `ROOT` folder with `PATTERN` and create a key
 corresponding to each module. Key is computed using
 `MOD_TO_KEY` functional, which follows the same
 signature as
-[`utils.mod_to_key`](./argparse_tree/utils.py#L65).
+[`utils.mod_to_key`](./argparse_tree/utils.py#L47).
 
 
 ## [`add_commands`](./argparse_tree/utils.py#L90) ##
@@ -134,7 +134,7 @@ Create subcommands to cli using `PARSER`, one
 corresponding to each `PATTERN`. Command name is
 computed using `MOD_TO_KEY` functional, which follows
 the same signature as
-[`utils.mod_to_key`](./argparse_tree/utils.py#L65).
+[`utils.mod_to_key`](./argparse_tree/utils.py#L47).
 
 The same convention as
 [`collect_parsers`](#collect_parsers) is followed for
