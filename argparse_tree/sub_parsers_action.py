@@ -99,3 +99,7 @@ class SubParsersAction(Action):
         if arg_strings:
             vars(namespace).setdefault(_UNRECOGNIZED_ARGS_ATTR, [])
             getattr(namespace, _UNRECOGNIZED_ARGS_ATTR).extend(arg_strings)
+
+        super(SubParsersAction, self).__call__(
+            parser, namespace, values, option_string
+        )

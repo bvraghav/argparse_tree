@@ -35,7 +35,7 @@ def load_module_subparser_action(
   from . sub_parsers_action import SubParsersAction
 
   class LoadModuleAction(
-      LoadModuleActionBase, SubParsersAction
+      SubParsersAction, LoadModuleActionBase,
   ) :
     value_decoder = partial(
       key_to_mod, pattern=pattern, package=package
