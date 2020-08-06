@@ -43,24 +43,6 @@ def collect_parsers(
 
   return list(chain(*parser_groups))
 
-def collect_keys(
-    pattern,
-    root=None,
-    parent_package=None
-) :
-  from . import Atree
-
-  root = sanitize_root_path(root)
-  lg.debug('collect_keys: root: %s', root)
-
-  lg.debug('collect_keys: pattern: %s', pattern)
-
-  return Atree(
-    pattern,
-    root = root,
-    parent_package = parent_package,
-  ).collect_keys()
-
 
 def mod_to_key(module_name, pattern) :
   from functools import reduce
@@ -86,6 +68,24 @@ def mod_to_key(module_name, pattern) :
   )
 
   return key
+
+
+def collect_keys(
+    pattern,
+    root=None,
+    mod_to_key=mod_to_key,
+) :
+  from . import Atree
+
+  root = sanitize_root_path(root)
+  lg.debug('collect_keys: root: %s', root)
+  lg.debug('collect_keys: pattern: %s', pattern)
+
+  return Atree(
+    pattern,
+    root = root,
+    mod_to_key=mod_to_key,
+  ).collect_keys()
 
 def add_commands(
     parser, pattern, *,
