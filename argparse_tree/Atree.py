@@ -24,6 +24,7 @@ class Atree :
     return [
       self.get_key(path)
       for path in self.get_paths()
+      if 'generic' not in str(path)
     ]
 
   def collect_keyed_parsers(self) :
