@@ -49,8 +49,8 @@ add_commands(
 
 Three functions namely,
 [`collect_parsers`](./argparse_tree/utils.py#L13),
-[`add_commands`](./argparse_tree/utils.py#L72), and
-[`load_module_subparser_action`](./argparse_tree/load_module_subparser_action.py#L31)
+[`add_commands`](./argparse_tree/utils.py#L90), and
+[`load_module_subparser_action`](./argparse_tree/load_module_action.py#L31)
 are utilized to achieve the desired behaviour, that is
 
 1. To have a set of argument groups collected from a
@@ -91,7 +91,7 @@ where the caller script resides.
 to `ROOT` folder. If not specified, `PARENT_PACKAGE` is
 not used.
 
-## [`add_commands`](./argparse_tree/utils.py#L72) ##
+## [`add_commands`](./argparse_tree/utils.py#L90) ##
 
 ```python
 add_commands(
@@ -109,7 +109,7 @@ Create subcommands to cli using `PARSER`, one
 corresponding to each `PATTERN`. Command name is
 computed using `MOD_TO_KEY` functional, which follows
 the same signature as
-[`utils.mod_to_key`](./argparse_tree/utils.py#L47).
+[`utils.mod_to_key`](./argparse_tree/utils.py#L65).
 
 The same convention as
 [`collect_parsers`](#collect_parsers) is followed for
@@ -119,10 +119,10 @@ The same convention as
 [`argparse.ArgumentParser.add_subparsers`](https://docs.python.org/3/library/argparse.html?highlight=argparse%20argumentparser%20add_subparsers#argparse.ArgumentParser.add_subparsers).
 
 
-## [`load_module_action`](./argparse_tree/load_module_action.py#L31) ##
+## [`load_module_subparser_action`](./argparse_tree/load_module_action.py#L31) ##
 
 ```python
-load_module_action(
+load_module_subparser_action(
   pattern,
   package=None,
   key_to_mod=utils.key_to_mod
@@ -139,6 +139,14 @@ In case it is desirable to load a module corresponding
 to value in user-specified argument, at the time of
 parsing the args, use this as value of `action` in
 [`argparser.ArgumentParser.add_argument`](https://docs.python.org/3/library/argparse.html?highlight=argparse%20argumentparser%20add_argument#argparse.ArgumentParser.add_argument).
+
+### Update ###
+**Version >= 0.1.3** : Code issues separate actions
+corresponding to `store` action and `subparser` action,
+as `load_module_store_action` and
+`load_module_subparser_action`
+respectively. *BREAKING*: `load_module_action` is an
+alias for `load_module_store_action`.
 
 
 # Motivation #
