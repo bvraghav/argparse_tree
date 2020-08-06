@@ -12,3 +12,10 @@ create-dist :
 
 upload : create-dist
 	${PYTHON} -m twine upload dist/*
+
+.PHONY: try-example
+try-example :
+	cd $(realpath $(dir ${SELF})) ; \
+	${PYTHON} -m ${notdir ${SELF}}.example \
+	  --style2 alpha \
+	  pop
