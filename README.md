@@ -47,8 +47,17 @@ add_commands(
 )
 ```
 
-Three functions namely,
+Inside of style2/generic.py
+```python
+parser.add_argument(
+  '--style2', choices=collect_keys('style2/*.py'),
+  action=load_module_action('*.py', __package__)
+)
+```
+
+Four functions namely,
 [`collect_parsers`](./argparse_tree/utils.py#L13),
+[`collect_keys`](./argparse_tree/utils.py#L73),
 [`add_commands`](./argparse_tree/utils.py#L90), and
 [`load_module_subparser_action`](./argparse_tree/load_module_action.py#L31)
 are utilized to achieve the desired behaviour, that is
@@ -90,6 +99,22 @@ where the caller script resides.
 `PARENT_PACKAGE` is the name of package corresponding
 to `ROOT` folder. If not specified, `PARENT_PACKAGE` is
 not used.
+
+## [`collect_keys`](./argparse_tree/utils.py#L73)  ##
+
+```python
+collect_keys(
+  pattern,
+  root=None,
+  mod_to_key=utils.mod_to_key
+)
+```
+Glob the `ROOT` folder with `PATTERN` and create a key
+corresponding to each module. Key is computed using
+`MOD_TO_KEY` functional, which follows the same
+signature as
+[`utils.mod_to_key`](./argparse_tree/utils.py#L65).
+
 
 ## [`add_commands`](./argparse_tree/utils.py#L90) ##
 
