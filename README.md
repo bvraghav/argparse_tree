@@ -47,7 +47,7 @@ add_commands(
 )
 ```
 
-Inside of style2/generic.py
+Inside of [`style2/generic.py`](./example/style2/generic.py)
 ```python
 parser.add_argument(
   '--style2', choices=collect_keys('style2/*.py'),
