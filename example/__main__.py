@@ -30,7 +30,7 @@ def cli_args() :
   return parser
 
 def main() :
-  
+
   lg.basicConfig(
     level=lg.DEBUG,
     format='%(levelname)-8s: %(message)s'
