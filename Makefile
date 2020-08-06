@@ -1,11 +1,11 @@
 SHELL		:= /usr/bin/zsh
 ACTIVATE_SRC 	:= ${HOME}/miniconda3/bin/activate
-CONDA_ENV_NAME 	:= pytorch
+CONDA_ENV_NAME 	:= agtree
 
 SELF		:= $(realpath $(dir $(firstword \
 			${MAKEFILE_LIST})))
-# PYTHON	:= source ${ACTIVATE_SRC} ${CONDA_ENV_NAME} ; python
-PYTHON		:= python
+PYTHON		:= source ${ACTIVATE_SRC} ${CONDA_ENV_NAME} ; python
+# PYTHON	:= python
 
 create-dist :
 	${PYTHON} setup.py sdist bdist_wheel
@@ -17,5 +17,12 @@ upload : create-dist
 try-example :
 	cd $(realpath $(dir ${SELF})) ; \
 	${PYTHON} -m ${notdir ${SELF}}.example \
-	  --style2 alpha \
-	  pop
+	  --help
+	cd $(realpath $(dir ${SELF})) ; \
+	${PYTHON} -m ${notdir ${SELF}}.example \
+	  pop \
+	  --help
+	cd $(realpath $(dir ${SELF})) ; \
+	${PYTHON} -m ${notdir ${SELF}}.example \
+	   --style2 alpha \
+	   pop
