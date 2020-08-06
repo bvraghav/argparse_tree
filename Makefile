@@ -2,10 +2,13 @@ SHELL		:= /usr/bin/zsh
 ACTIVATE_SRC 	:= ${HOME}/miniconda3/bin/activate
 CONDA_ENV_NAME 	:= pytorch
 
+SELF		:= $(realpath $(dir $(firstword \
+			${MAKEFILE_LIST})))
+# PYTHON	:= source ${ACTIVATE_SRC} ${CONDA_ENV_NAME} ; python
+PYTHON		:= python
+
 create-dist :
-	source ${ACTIVATE_SRC} ${CONDA_ENV_NAME} ; \
-	python setup.py sdist bdist_wheel
+	${PYTHON} setup.py sdist bdist_wheel
 
 upload : create-dist
-	source ${ACTIVATE_SRC} ${CONDA_ENV_NAME} ; \
-	python -m twine upload dist/*
+	${PYTHON} -m twine upload dist/*
