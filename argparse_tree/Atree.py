@@ -20,6 +20,12 @@ class Atree :
   def collect_parsers(self) :
     return list(map(self.parser, self.collect()))
 
+  def collect_keys(self) :
+    return [
+      self.get_key(path)
+      for path in self.get_paths()
+    ]
+
   def collect_keyed_parsers(self) :
     return {
       self.get_key(path):

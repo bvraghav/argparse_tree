@@ -20,9 +20,9 @@ def collect_parsers(
   from itertools import chain
 
   root = sanitize_root_path(root)
-  lg.info('collect_parsers: root: %s', root)
+  lg.debug('collect_parsers: root: %s', root)
 
-  lg.info('collect_parsers: patterns: %s', patterns)
+  lg.debug('collect_parsers: patterns: %s', patterns)
 
   parser_groups = [
     Atree(
@@ -43,6 +43,24 @@ def collect_parsers(
 
   return list(chain(*parser_groups))
 
+def collect_keys(
+    pattern,
+    root=None,
+    parent_package=None
+) :
+  from . import Atree
+
+  root = sanitize_root_path(root)
+  lg.debug('collect_keys: root: %s', root)
+
+  lg.debug('collect_keys: pattern: %s', pattern)
+
+  return Atree(
+    pattern,
+    root = root,
+    parent_package = parent_package,
+  ).collect_keys()
+
 
 def mod_to_key(module_name, pattern) :
   from functools import reduce
@@ -62,7 +80,7 @@ def mod_to_key(module_name, pattern) :
   key = reduce(eraser, noise)
   key = key.replace('_', '-')
 
-  lg.info(
+  lg.debug(
     f'mod_to_key: module_name:{module_name} '
     f'pattern:{pattern} noise:{noise} key:{key}'
   )
@@ -79,7 +97,7 @@ def add_commands(
   from argparse import ArgumentParser
 
   root = sanitize_root_path(root)
-  lg.info('add_commands: root: %s', root)
+  lg.debug('add_commands: root: %s', root)
 
   commands = Atree(
     pattern,
@@ -97,8 +115,8 @@ def add_commands(
 
     for name, prsr in commands.items() :
 
-      lg.info(f'reduce_command_parsers: name: {name}')
-      lg.info(f'reduce_command_parsers: prsr: {prsr}')
+      lg.debug(f'reduce_command_parsers: name: {name}')
+      lg.debug(f'reduce_command_parsers: prsr: {prsr}')
 
       subs.add_parser(name, parents=[prsr])
 
@@ -113,7 +131,8 @@ def key_to_mod(key, pattern, package=None) :
   lg.debug(f'key_to_mod: key:{key}, pattern:{pattern},'
            f' package:{package}')
 
-  key = key[0].replace('-', '_')
+  if isinstance(key, list) : key = key[0]
+  key = key.replace('-', '_')
   mod = (
     str(Path(pattern).with_suffix(''))
     .replace('*', key).replace('/', '.')
