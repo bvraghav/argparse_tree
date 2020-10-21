@@ -52,6 +52,8 @@ def mod_to_key(module_name, pattern) :
     s.replace(
       str(Path(x).with_suffix('')),
       ''
+    ).replace(
+      x, ''
     )
   )
 

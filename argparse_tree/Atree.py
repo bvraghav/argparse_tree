@@ -24,7 +24,7 @@ class Atree :
     return [
       self.get_key(path)
       for path in self.get_paths()
-      if 'generic' not in str(path)
+      if 'generic' not in str(path).lower()
     ]
 
   def collect_keyed_parsers(self) :
@@ -47,6 +47,7 @@ class Atree :
     if self.parent_package :
       s = f'{self.parent_package}.{s}'
 
+    lg.debug(f'Atree.get_module: s: {s}')
     return import_module(s)
 
   def get_key(self, path) :
@@ -64,12 +65,14 @@ class Atree :
     lg.debug(f'get_paths: pattern: {self.pattern} paths: {paths}')
 
     generics = [i for i in range(len(paths))
-                if 'generic' in str(paths[i])]
+                if 'generic' in str(paths[i]).lower()]
     generics = (
       [paths.pop(generics.pop(0))]
       if generics
       else []
     )
+
+    lg.debug(f'Atree.get_paths: generics: {generics}')
 
     return generics + paths
 
