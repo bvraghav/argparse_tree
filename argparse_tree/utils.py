@@ -50,10 +50,10 @@ def mod_to_key(module_name, pattern) :
 
   eraser = lambda s, x : (
     s.replace(
+      x, ''
+    ).replace(
       str(Path(x).with_suffix('')),
       ''
-    ).replace(
-      x, ''
     )
   )
 

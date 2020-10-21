@@ -5,7 +5,7 @@ with open('README.md', 'r') as F :
 
 setup(
   name                          = 'argparse_tree',
-  version                       = '0.1.3.post3',
+  version                       = '0.1.3.post4',
   description                   = (
     'Split parse args into filesystem tree for '
     'complex projects.'
