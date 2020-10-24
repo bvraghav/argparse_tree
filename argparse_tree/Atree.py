@@ -43,11 +43,14 @@ class Atree :
     from importlib import import_module
 
     s = path.relative_to(self.root).with_suffix('')
-    s = str(s).replace('/', '.')
     if self.parent_package :
-      s = f'{self.parent_package}.{s}'
+      p = Path(self.parent_package.replace('.', '/'))
+      c = Path('.').resolve()
+      s = (p/s).resolve().relative_to(c)
 
+    s = str(s).replace('/', '.')
     lg.debug(f'Atree.get_module: s: {s}')
+
     return import_module(s)
 
   def get_key(self, path) :
