@@ -41,6 +41,7 @@ class Atree :
 
   def get_module(self, path) :
     from importlib import import_module
+    from pathlib import Path
 
     s = path.relative_to(self.root).with_suffix('')
     if self.parent_package :
