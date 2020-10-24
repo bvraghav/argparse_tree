@@ -142,4 +142,6 @@ def key_to_mod(key, pattern, package=None) :
 
   if package : mod = f'{package}.{mod}'
 
+  lg.debug(f'key_to_mod: mod:{mod}')
+
   return mod
